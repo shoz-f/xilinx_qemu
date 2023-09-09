@@ -151,6 +151,8 @@ void aio_bh_call(QEMUBH *bh)
 }
 
 /* Multiple occurrences of aio_bh_poll cannot be called concurrently. */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdangling-pointer"
 int aio_bh_poll(AioContext *ctx)
 {
     BHListSlice slice;
@@ -184,6 +186,7 @@ int aio_bh_poll(AioContext *ctx)
 
     return ret;
 }
+#pragma GCC diagnostic pop
 
 void qemu_bh_schedule_idle(QEMUBH *bh)
 {
